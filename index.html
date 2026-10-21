@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1030">
+<meta name="description" content="Orbit – a beautiful, ADHD-friendly daily planner with focus timers, habit tracking, brain dump, and dopamine tools. Works offline on any device.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Orbit">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<title>Orbit – ADHD Planner</title>
+<style>
+:root{--bg:#fff3fa;--bg2:#ffe0f0;--card:#ffffff;--ink:#2a1245;--mut:#74608f;--c1:#ff3d8b;--c2:#12c98b;--c3:#ffb800;--c4:#4d6bff;--line:#f3cfe4;--sh:0 10px 28px rgba(255,61,139,.16)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1030;--bg2:#171d4d;--card:#151b45;--ink:#f6f3ff;--mut:#aab0e6;--c1:#ff5fa8;--c2:#39f2b0;--c3:#ffd23f;--c4:#6f8cff;--line:#2a3380;--sh:0 10px 28px rgba(0,0,0,.45)}}
+:root[data-theme="dark"]{--bg:#0b1030;--bg2:#171d4d;--card:#151b45;--ink:#f6f3ff;--mut:#aab0e6;--c1:#ff5fa8;--c2:#39f2b0;--c3:#ffd23f;--c4:#6f8cff;--line:#2a3380;--sh:0 10px 28px rgba(0,0,0,.45)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:radial-gradient(700px 500px at 100% 0,color-mix(in srgb,var(--c1) 24%,transparent),transparent),radial-gradient(700px 500px at 0 60%,color-mix(in srgb,var(--c4) 22%,transparent),transparent),var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+main{max-width:720px;margin:0 auto;padding:18px 16px 120px}
+h1{font-size:1.7rem;margin:0;letter-spacing:-.5px;background:linear-gradient(90deg,var(--c1),var(--c3),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+h2{font-size:1.15rem;margin:22px 0 10px}
+.sub{color:var(--mut);margin:2px 0 0}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--sh);margin:12px 0}
+.row{display:flex;gap:10px;align-items:center}.grow{flex:1;min-width:0}.wrap{flex-wrap:wrap}
+button{font:inherit;border:0;border-radius:16px;padding:12px 16px;min-height:46px;cursor:pointer;background:linear-gradient(135deg,var(--c4),var(--c1));color:#fff;font-weight:650;transition:transform .12s,opacity .12s}
+button:active{transform:scale(.96)}
+button.ghost{background:transparent;color:var(--mut);border:1.5px solid var(--line);font-weight:550}
+button.sm{min-height:38px;padding:8px 12px;font-size:.9rem;border-radius:12px}
+.big{width:100%;font-size:1.1rem;padding:16px;background:linear-gradient(135deg,var(--c1),var(--c3));color:#2a1a00}
+input,select{font:inherit;width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
+input:focus,select:focus,button:focus-visible{outline:3px solid var(--c4);outline-offset:2px}
+.wx{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wx button{background:var(--bg);color:var(--ink);border:1.5px solid var(--line);display:flex;flex-direction:column;gap:2px;align-items:center;padding:14px 8px}
+.wx b{font-size:1.9rem}.wx small{color:var(--mut);font-weight:500;font-size:.78rem;text-align:center}
+.chip{display:inline-block;padding:4px 10px;border-radius:99px;font-size:.78rem;font-weight:650;background:var(--bg2);color:var(--mut)}
+.e-e{background:rgba(20,168,154,.18);color:var(--c2)}.e-m{background:rgba(242,179,0,.2);color:var(--c3)}.e-h{background:rgba(255,122,89,.2);color:var(--c1)}
+.task{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed var(--line)}.task:last-child{border:0}
+.ck{width:30px;height:30px;min-height:30px;padding:0;border-radius:50%;background:transparent;border:2.5px solid var(--c4);flex:none;color:#fff;font-size:1rem}
+.ck.on{background:var(--c2);border-color:var(--c2)}
+.done .tt{text-decoration:line-through;opacity:.5}
+.steps{margin:6px 0 0;padding:0;list-style:none}.steps li{padding:3px 0;color:var(--mut);font-size:.92rem;cursor:pointer}.steps li.d{text-decoration:line-through;opacity:.55}
+.xp{height:10px;background:var(--bg2);border-radius:9px;overflow:hidden}.xp i{display:block;height:100%;background:linear-gradient(90deg,var(--c2),var(--c4));border-radius:9px}
+.hero{display:flex;gap:14px;align-items:center}
+svg.orb{width:150px;height:150px;flex:none}
+.spin{transform-origin:110px 110px;animation:sp 70s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:4px;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(14px);border-top:1px solid var(--line);z-index:5}
+nav button{flex:1;max-width:120px;background:transparent;color:var(--mut);display:flex;flex-direction:column;gap:0;padding:6px 2px;font-size:.72rem;border-radius:14px}
+nav button span{font-size:1.4rem;line-height:1.3}nav button.on{background:var(--bg2);color:var(--c4)}
+.ring{position:relative;width:250px;height:250px;margin:10px auto}.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.6rem;font-weight:800;font-variant-numeric:tabular-nums}
+.ring .t small{font-size:.85rem;color:var(--mut);font-weight:500;max-width:150px;text-align:center}
+.dots{display:flex;gap:5px}.dots i{width:14px;height:14px;border-radius:50%;background:var(--bg2)}.dots i.on{background:var(--c2)}
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translate(-50%,-90px);background:var(--c4);color:#fff;padding:12px 18px;border-radius:99px;font-weight:700;transition:.3s;z-index:9;max-width:90%;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+textarea{width:100%;min-height:90px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);padding:10px;font:.8rem monospace}
+.x{background:none;color:var(--mut);padding:4px 8px;min-height:30px;font-size:1.1rem}
+#arena{position:relative;height:340px;border-radius:20px;margin-top:10px;overflow:hidden;background:radial-gradient(circle at 30% 20%,color-mix(in srgb,var(--c4) 35%,var(--bg)),var(--bg2));border:2px solid var(--line);touch-action:manipulation}
+#arena .orb{position:absolute;width:56px;height:56px;min-height:56px;padding:0;font-size:2rem;border-radius:50%;background:transparent;animation:pop .25s ease-out}
+.end{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-size:1.6rem;font-weight:800}
+@keyframes pop{from{transform:scale(0)}}
+.bw{display:flex;justify-content:center;padding:44px 0}
+.bub{width:100px;height:100px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff9,var(--c4));box-shadow:0 0 40px var(--c4);cursor:pointer}
+.bub.go{animation:br 10s ease-in-out infinite}
+@keyframes br{0%{transform:scale(1)}40%,60%{transform:scale(1.9)}100%{transform:scale(1)}}
+.cf{position:fixed;top:-30px;font-size:1.6rem;z-index:20;pointer-events:none;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+label{display:block;margin-top:12px}label:first-child{margin-top:0}
+
+/* ── Install banner ── */
+#install-banner{display:none;position:fixed;bottom:calc(70px + env(safe-area-inset-bottom,0px));left:12px;right:12px;z-index:8;background:linear-gradient(135deg,var(--c4),var(--c1));border-radius:18px;padding:14px 16px;color:#fff;box-shadow:0 8px 30px rgba(77,107,255,.4);animation:slideUp .4s ease-out}
+#install-banner.visible{display:flex;gap:12px;align-items:center}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+#install-banner .ib-txt{flex:1;font-size:.9rem;font-weight:600;line-height:1.3}
+#install-banner .ib-txt small{display:block;font-weight:400;opacity:.85;font-size:.78rem;margin-top:2px}
+#install-banner button{min-height:36px;padding:8px 14px;font-size:.85rem;border-radius:12px;background:#fff;color:var(--c4);white-space:nowrap}
+#install-banner .ib-close{background:none;color:#fff;opacity:.7;min-height:30px;padding:4px 8px;font-size:1.2rem}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<div id="toast"></div>
+
+<!-- Install to Home Screen Banner -->
+<div id="install-banner" role="complementary" aria-label="Install app">
+  <div class="ib-txt">
+    📲 Add to Home Screen
+    <small>Use it like a real app, even offline!</small>
+  </div>
+  <button id="install-btn">Install</button>
+  <button class="ib-close" id="install-dismiss" aria-label="Dismiss">✕</button>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const day=(o=0)=>{const d=new Date();d.setDate(d.getDate()-o);return d.toLocaleDateString('en-CA')};
+const WX={foggy:['🌫️','Foggy','Slow start: 3 easy things'],sunny:['☀️','Sunny','Full power: everything open'],stormy:['⛈️','Stormy','Rough day: just 2 easy wins'],scattered:['🌀','Scattered','Easy first, max 4']};
+const DEF={w:null,wd:'',tasks:[],dump:[],habits:[],xp:0,dop:['Play one favourite song','Walk around the block','Cold water + stretch','Snack you enjoy','Text a friend a meme'],theme:''};
+let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem('orbit1')||'{}'))}catch(e){S=Object.assign({},DEF)}
+const save=()=>{try{localStorage.setItem('orbit1',JSON.stringify(S))}catch(e){}};
+if(S.theme)document.documentElement.dataset.theme=S.theme;
+if(S.wd!==day()){S.w=null}
+let tab='today',F=null,iv=null,msg='';
+const id=()=>Math.random().toString(36).slice(2,9);
+const lvl=()=>Math.floor(S.xp/50)+1;
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
+function chime(){try{const a=new(window.AudioContext||window.webkitAudioContext)();[523,659,784].forEach((f,i)=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=f;o.connect(g);g.connect(a.destination);const t=a.currentTime+i*.2;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.25,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+.6);o.start(t);o.stop(t+.65)})}catch(e){}}
+function pool(){const open=S.tasks.filter(t=>!t.done);const o={e:0,m:1,h:2};const s=[...open].sort((a,b)=>o[a.e]-o[b.e]);
+ if(S.w==='sunny'||!S.w)return{show:open,hid:0};
+ const lim={foggy:3,stormy:2,scattered:4}[S.w];const base=S.w==='scattered'?s:s.filter(t=>t.e==='e');
+ const show=base.slice(0,lim);return{show,hid:open.length-show.length}}
+function setW(w){S.w=w;S.wd=day();save();toast(WX[w][0]+' Day shaped to fit you');render()}
+function addTask(txt,e){txt=(txt||'').trim();if(!txt)return;S.tasks.unshift({id:id(),t:txt,e:e||'m',done:false,steps:[]});save();render()}
+function tog(i){const t=S.tasks.find(x=>x.id===i);t.done=!t.done;if(t.done){t.on=day();const x={e:5,m:10,h:20}[t.e];S.xp+=x;toast('+'+x+' XP ✨ Nice one!')}else{t.on=null}save();render()}
+function split(i){const t=S.tasks.find(x=>x.id===i);t.steps=['Get what you need (2 min)','Do only the first tiny piece','Look at what\'s left, then decide','Finish or park it – both are wins'].map(s=>({s,d:0}));save();render()}
+function stp(i,k){const t=S.tasks.find(x=>x.id===i);t.steps[k].d^=1;save();render()}
+function del(i){const old=S.tasks.slice();S.tasks=S.tasks.filter(x=>x.id!==i);save();render();toast('Deleted · tap to undo');$('#toast').onclick=()=>{S.tasks=old;save();render();$('#toast').onclick=null}}
+function dumpAdd(){const v=$('#dump').value.trim();if(!v)return;S.dump.unshift(v);save();render()}
+function dumpTask(k){addTask(S.dump[k]);S.dump.splice(k,1);save();render()}
+function dumpDel(k){S.dump.splice(k,1);save();render()}
+function justStart(){const p=pool().show;if(!p.length){toast('Nothing open – add one tiny thing!');return}const t=p[Math.floor(Math.random()*p.length)];startF(5,t.id);}
+function startF(m,tid){if(iv)clearInterval(iv);const t=tid||(pool().show[0]||{}).id;F={tid:t,tot:m*60000,end:Date.now()+m*60000,m};tab='focus';msg='';render();iv=setInterval(tick,250)}
+function stopF(){clearInterval(iv);iv=null;F=null;render()}
+function tick(){if(!F)return;const left=Math.max(0,F.end-Date.now());const r=$('#arc'),tm=$('#tm');if(r){r.style.strokeDashoffset=String(691*(1-left/F.tot))}if(tm){const s=Math.ceil(left/1000);tm.firstChild.nodeValue=Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+ if(left<=0){clearInterval(iv);iv=null;chime();S.xp+=F.m;save();msg='Timer done! +'+F.m+' XP. Quick check: water? stretch? eat something? 💧';F=null;render()}}
+function habAdd(){const v=$('#hn').value.trim();if(!v)return;S.habits.push({id:id(),n:v,log:[]});save();render()}
+function habTog(i){const h=S.habits.find(x=>x.id===i);const d=day();const k=h.log.indexOf(d);if(k>-1)h.log.splice(k,1);else{h.log.push(d);S.xp+=3;toast('+3 XP 🌱')}save();render()}
+function habDel(i){S.habits=S.habits.filter(x=>x.id!==i);save();render()}
+function streak(h){let s=0,m=0;for(let i=0;i<365;i++){if(h.log.includes(day(i))){s++;m=0}else if(i>0){m++;if(m>1)break}}return s}
+function dop(){const l=S.dop;if(!l.length)return;$('#dp').textContent='→ '+l[Math.floor(Math.random()*l.length)]}
+function dopAdd(){const v=$('#dn').value.trim();if(!v)return;S.dop.push(v);save();render()}
+function dopDel(k){S.dop.splice(k,1);save();render()}
+function theme(){const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');S.theme=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=S.theme;save()}
+function imp(){try{const d=JSON.parse($('#bk').value);S=Object.assign({},DEF,d);save();toast('Backup restored ✅');render()}catch(e){toast('That backup text isn\'t valid')}}
+function orbit(){const items=S.tasks.filter(t=>!t.done||t.on===day()).slice(0,8);const n=items.length;let p='';items.forEach((t,i)=>{const a=i/n*6.283,r=i%2?80:52,x=110+r*Math.cos(a),y=110+r*Math.sin(a),sz={e:7,m:10,h:13}[t.e];p+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${sz}" fill="${t.done?'var(--c2)':'var(--c1)'}" opacity="${t.done?1:.85}"/>`});
+ return `<svg class="orb" viewBox="0 0 220 220" aria-hidden="true"><defs><radialGradient id="sg"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#ff7a59"/></radialGradient></defs><circle cx="110" cy="110" r="52" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="3 5"/><circle cx="110" cy="110" r="80" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="3 5"/><circle cx="110" cy="110" r="24" fill="url(#sg)"/><g class="spin">${p}</g></svg>`}
+function taskRow(t,full){const st=t.steps.map((s,k)=>`<li class="${s.d?'d':''}" onclick="stp('${t.id}',${k})">${s.d?'✔':'○'} ${esc(s.s)}</li>`).join('');
+ return `<div class="task ${t.done?'done':''}"><button class="ck ${t.done?'on':''}" aria-label="Complete" onclick="tog('${t.id}')">${t.done?'✓':''}</button><div class="grow"><div class="tt">${esc(t.t)}</div><span class="chip e-${t.e}">${{e:'Easy',m:'Medium',h:'Hard'}[t.e]}</span>${st?`<ul class="steps">${st}</ul>`:''}${full&&!t.steps.length&&!t.done?` <button class="ghost sm" onclick="split('${t.id}')">✂️ Tiny steps</button>`:''}${!t.done?` <button class="ghost sm" onclick="startF(15,'${t.id}')">⏱ Focus</button>`:''}</div>${full?`<button class="x" aria-label="Delete" onclick="del('${t.id}')">✕</button>`:''}</div>`}
+function render(){
+ if(!S.prof){onb();return}
+ const p=pool();let h='';
+ if(tab==='today'){const nx=S.xp%50;const dn=S.tasks.filter(t=>t.on===day()).length;
+  h=`<div class="hero"><div class="grow"><h1>Hey, ${esc(S.prof.name)} 👋</h1><p class="sub">${dn?dn+' done today. Look at you.':'One small thing is enough to start.'}</p><div class="row" style="margin-top:10px"><b>Lv ${lvl()} · ${['Stargazer','Comet','Nova','Pulsar','Galaxy','Legend'][Math.min(5,lvl()-1)]}</b><div class="xp grow"><i style="width:${nx*2}%"></i></div></div></div>${orbit()}</div>`;
+  if(!S.w)h+=`<div class="card"><b>How's your brain weather today?</b><p class="sub" style="margin-bottom:12px">I'll shape your list to match. No wrong answer.</p><div class="wx">${Object.keys(WX).map(k=>`<button onclick="setW('${k}')"><b>${WX[k][0]}</b>${WX[k][1]}<small>${WX[k][2]}</small></button>`).join('')}</div></div>`;
+  else h+=`<div class="row wrap"><span class="chip">${WX[S.w][0]} ${WX[S.w][1]} · ${WX[S.w][2]}</span><button class="ghost sm" onclick="S.w=null;render()">change</button></div>`;
+  h+=`<button class="big card" style="margin-top:14px;border:0" onclick="justStart()">🚀 Just start (picks one for me)</button>
+  <div class="card"><b>Your focus list</b>${p.show.length?p.show.map(t=>taskRow(t,false)).join(''):'<p class="sub">Clear! Add something in Tasks, or enjoy the quiet. 🌙</p>'}${p.hid?`<p class="sub">${p.hid} more waiting patiently – they're not going anywhere.</p>`:''}</div>
+  <div class="card"><b>How do you feel?</b><div class="row wrap" style="margin:8px 0">${['😫','😕','😐','🙂','🤩'].map(m=>`<button class="ghost sm" style="${S.moods[day()]===m?'background:var(--c4);color:#fff;border-color:transparent':''}" onclick="S.moods['${day()}']='${m}';save();render()">${m}</button>`).join('')}</div><div class="row"><b class="grow">💧 Water: ${S.water[day()]||0}/8</b><button class="sm" onclick="S.water[day()]=(S.water[day()]||0)+1;save();render()">+ glass</button></div></div>
+  <div class="card"><b>🏆 Win wall</b><div class="sub">${S.tasks.filter(t=>t.on===day()).map(t=>'🏆 '+esc(t.t)).join('<br>')||'Your wins today will pile up here.'}</div></div>
+  <div class="card"><b>🧠 Brain dump</b><p class="sub">Type it, press Enter, sort it later.</p><div class="row"><input id="dump" placeholder="Random thought…" onkeydown="if(event.key==='Enter')dumpAdd()"><button onclick="dumpAdd()">Add</button></div>${S.dump.map((d,k)=>`<div class="row" style="margin-top:8px"><div class="grow">${esc(d)}</div><button class="ghost sm" onclick="dumpTask(${k})">→ task</button><button class="x" onclick="dumpDel(${k})">✕</button></div>`).join('')}</div>`;
+ }
+ if(tab==='tasks'){h=`<h1>Tasks</h1><p class="sub">Big ones can be split into tiny steps.</p><div class="card"><input id="nt" placeholder="What needs doing?" onkeydown="if(event.key==='Enter')addTask($('#nt').value,$('#ne').value)"><div class="row" style="margin-top:10px"><select id="ne"><option value="e">🟢 Easy</option><option value="m" selected>🟡 Medium</option><option value="h">🔴 Hard</option></select><button onclick="addTask($('#nt').value,$('#ne').value)">Add</button></div></div><div class="card">${S.tasks.length?S.tasks.map(t=>taskRow(t,true)).join(''):'<p class="sub">Nothing here yet.</p>'}</div>`}
+ if(tab==='focus'){if(F){const t=S.tasks.find(x=>x.id===F.tid);const left=Math.max(0,F.end-Date.now());h=`<h1>Focus</h1><p class="sub">${t?esc(t.t):'Just this one thing'}</p><div class="ring"><svg viewBox="0 0 240 240"><circle cx="120" cy="120" r="110" fill="none" stroke="var(--bg2)" stroke-width="14"/><circle id="arc" cx="120" cy="120" r="110" fill="none" stroke="var(--c1)" stroke-width="14" stroke-linecap="round" stroke-dasharray="691" style="stroke-dashoffset:${691*(1-left/F.tot)}"/></svg><div class="t"><span id="tm">${Math.ceil(left/1000/60)}:00</span><small>the colour shrinks as time goes</small></div></div><div class="row"><button class="ghost grow" onclick="stopF()">Stop</button>${t?`<button class="grow" style="background:var(--c2)" onclick="tog('${t.id}');stopF()">✓ Done!</button>`:''}</div>`}
+  else h=`<h1>Focus</h1><p class="sub">See time instead of reading it.</p>${msg?`<div class="card">${esc(msg)}</div>`:''}<div class="card"><b>Pick a length</b><div class="row" style="margin-top:12px"><button class="grow" onclick="startF(5)">5 min</button><button class="grow" onclick="startF(15)" style="background:var(--c1)">15 min</button><button class="grow" onclick="startF(25)" style="background:var(--c2)">25 min</button></div><p class="sub">Starts with your top focus task. A chime plays at the end while this page is open.</p></div>`}
+ if(tab==='habits'){h=`<h1>Habits</h1><p class="sub">Kind streaks: one missed day won't break it.</p><div class="card"><div class="row"><input id="hn" placeholder="New habit (e.g. take meds)" onkeydown="if(event.key==='Enter')habAdd()"><button onclick="habAdd()">Add</button></div></div>${S.habits.map(x=>{const on=x.log.includes(day());let d='';for(let i=13;i>=0;i--)d+=`<i class="${x.log.includes(day(i))?'on':''}"></i>`;return `<div class="card"><div class="row"><button class="ck ${on?'on':''}" onclick="habTog('${x.id}')">${on?'✓':''}</button><div class="grow"><b>${esc(x.n)}</b><div class="sub">🔥 ${streak(x)}-day streak</div></div><button class="x" onclick="habDel('${x.id}')">✕</button></div><div class="dots" style="margin-top:10px">${d}</div></div>`}).join('')||'<p class="sub">Add your first habit above.</p>'}`}
+ if(tab==='boost'){h=`<h1>Boost</h1><div class="card"><b>⚡ Dopamine menu</b><p class="sub">Stuck? Pick something quick that feels good.</p><button class="big" style="margin-bottom:8px" onclick="dop()">Surprise me</button><div id="dp" style="font-weight:700;font-size:1.1rem;margin:8px 0"></div>${S.dop.map((d,k)=>`<div class="row"><div class="grow">• ${esc(d)}</div><button class="x" onclick="dopDel(${k})">✕</button></div>`).join('')}<div class="row" style="margin-top:10px"><input id="dn" placeholder="Add your own boost"><button onclick="dopAdd()">Add</button></div></div>
+  <div class="card"><b>👤 ${esc(S.prof.name)}</b><p class="sub">Hardest: ${esc(S.prof.hard)} · Best time: ${esc(S.prof.best)}${S.prof.goal?'<br>🎯 '+esc(S.prof.goal):''}${S.prof.contact?'<br>🤝 '+esc(S.prof.contact):''}</p><div class="row wrap"><button class="ghost sm" onclick="S.prof=null;save();render()">Edit details</button><button class="ghost sm" onclick="demo()">✨ Load demo data</button><button class="ghost sm" onclick="clearAll()">🗑 Reset</button></div></div>
+  <div class="card"><b>🎨 Look</b><div class="row" style="margin-top:10px"><button class="ghost grow" onclick="theme()">Switch light / dark</button></div></div>
+  <div class="card"><b>💾 Backup</b><p class="sub">Your data stays on this device only. Copy this text somewhere safe, paste it back to restore.</p><textarea id="bk">${esc(JSON.stringify(S))}</textarea><button style="margin-top:8px" onclick="imp()">Restore from text</button></div>
+  <p class="sub" style="text-align:center">A planning tool, not medical advice.</p>`}
+ if(tab==='play'){h=`<h1>Play 🎮</h1><p class="sub">Quick brain-friendly games. Winning earns XP.</p><div class="card"><div class="row"><b class="grow">⭐ Star Catcher</b><span class="chip">Best ${S.best}</span></div><p class="sub">Tap ⭐ (+1) and 🌈 (+3). Dodge 💣. You have 30 seconds!</p><div class="row"><b>Score <span id="gs">0</span></b><b class="grow" style="text-align:right">⏳ <span id="gt">30</span>s</b></div><div id="arena"><div class="end">Ready?</div></div><button id="gb" class="big" style="margin-top:10px" onclick="startG()">Start</button></div><div class="card"><b>🫧 Breathing bubble</b><p class="sub">In 4 · hold 2 · out 4. Great before starting something hard.</p><div class="bw"><div id="bub" class="bub" onclick="breathe()"></div></div><div id="bl" style="text-align:center;font-weight:700">Tap the bubble to start</div></div>`}
+ $('#app').innerHTML=h;
+ $('#nav').innerHTML=[['today','🪐','Today'],['tasks','✅','Tasks'],['focus','⏱️','Focus'],['habits','🌱','Habits'],['play','🎮','Play'],['boost','⚡','Boost']].map(a=>`<button class="${tab===a[0]?'on':''}" onclick="tab='${a[0]}';render();scrollTo(0,0)"><span>${a[1]}</span>${a[2]}</button>`).join('')}
+S.moods=S.moods||{};S.water=S.water||{};S.best=S.best||0;S.prof=S.prof||null;
+function onb(){$('#nav').innerHTML='';$('#app').innerHTML=`<div style="text-align:center;font-size:3rem;margin-top:10px">🪐</div><h1 style="text-align:center">Welcome to Orbit</h1><p class="sub" style="text-align:center">Tell me a little so it feels like yours. It stays on this device only.</p><div class="card"><label><b>Your name</b><input id="pn" placeholder="e.g. Sam" autocomplete="given-name" maxlength="30"></label><label><b>Age (optional)</b><input id="pa" type="number" inputmode="numeric" min="5" max="120"></label><label><b>What's hardest right now?</b><select id="ph"><option>Getting started</option><option>Finishing things</option><option>Remembering things</option><option>Sense of time</option><option>Staying calm and organised</option></select></label><label><b>When is your brain best?</b><select id="pb"><option>Morning</option><option>Afternoon</option><option>Evening</option><option>Night</option></select></label><label><b>One goal you care about</b><input id="pg" placeholder="e.g. keep my room tidy" maxlength="60"></label><label><b>Support person (optional)</b><input id="pc" placeholder="Name or number of someone who helps" maxlength="50"></label></div><button class="big" onclick="saveProf()">Let's go 🚀</button><button class="ghost" style="width:100%;margin-top:10px" onclick="demo()">✨ Load demo data instead</button>`}
+function saveProf(){const n=$('#pn').value.trim();if(!n){toast('Please type your name 🙂');return}S.prof={name:n,age:$('#pa').value,hard:$('#ph').value,best:$('#pb').value,goal:$('#pg').value.trim(),contact:$('#pc').value.trim()};save();tab='today';render();toast('Welcome, '+n+'! 🎉')}
+function demo(){const d=n=>day(n);S.prof={name:'Alex (demo)',age:'24',hard:'Getting started',best:'Evening',goal:'Finish my project',contact:''};const T=(t,e,dn,st)=>({id:id(),t,e,done:!!dn,on:dn?day():null,steps:st?st.map((s,i)=>({s,d:i<1?1:0})):[]});S.tasks=[T('Reply to Mia\'s email','e'),T('Pay phone bill','e'),T('Do laundry','m'),T('Write project outline','h',0,['Open the doc','List 3 main points','Draft the intro','Review it']),T('Take vitamins','e',1),T('Book dentist','m'),T('Clean desk for 5 min','e',1)];S.dump=['Ask Sam about the weekend plan','Idea: colour-code my notes','Buy batteries'];const hl=(n,ds)=>({id:id(),n,log:ds.map(d)});S.habits=[hl('Take meds',[0,1,2,3,5]),hl('10-min walk',[1,2,4]),hl('Read 5 pages',[0,2])];S.xp=135;S.moods={};S.moods[day()]='🙂';S.water={};S.water[day()]=3;S.best=14;S.w='sunny';S.wd=day();save();tab='today';render();toast('Demo data loaded ✨')}
+function clearAll(){if(!confirm('Erase everything on this device?'))return;S=Object.assign({},DEF,{tasks:[],dump:[],habits:[]});S.prof=null;S.moods={};S.water={};S.best=0;save();render()}
+const _tog=tog;tog=function(i){_tog(i);const t=S.tasks.find(x=>x.id===i);if(t&&t.done)confetti()};
+function confetti(){for(let i=0;i<22;i++){const e=document.createElement('span');e.className='cf';e.textContent=['🎉','✨','⭐','💖','🌈'][i%5];e.style.left=Math.random()*95+'vw';e.style.animationDelay=Math.random()*.4+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),2300)}}
+let G=null,gi=null,gs=null,bi=null;
+function startG(){endG(1);G={s:0,t:30};$('#arena').innerHTML='';$('#gs').textContent='0';$('#gt').textContent='30';$('#gb').style.display='none';gi=setInterval(()=>{G.t--;$('#gt').textContent=G.t;if(G.t<=0)endG()},1000);gs=setInterval(spawn,650)}
+function spawn(){const a=$('#arena');if(!a||!G)return endG(1);const r=Math.random(),k=r<.12?['💣',-2]:r<.22?['🌈',3]:['⭐',1];const e=document.createElement('button');e.className='orb';e.textContent=k[0];e.setAttribute('aria-label','target');e.style.left=Math.random()*(a.clientWidth-56)+'px';e.style.top=Math.random()*(a.clientHeight-56)+'px';e.onclick=()=>{if(!G)return;G.s=Math.max(0,G.s+k[1]);$('#gs').textContent=G.s;e.remove();if(k[1]<0)toast('Oops! Bomb 💥')};a.appendChild(e);setTimeout(()=>e.remove(),1300)}
+function endG(q){clearInterval(gi);clearInterval(gs);if(!G)return;const sc=G.s;G=null;if(q)return;const xp=Math.floor(sc/3);S.xp+=xp;const nb=sc>S.best;if(nb)S.best=sc;save();toast((nb?'New best! ':'')+'Score '+sc+' · +'+xp+' XP');const a=$('#arena');if(a)a.innerHTML='<div class="end">Score '+sc+'<br>'+(nb?'🏆 New best!':'Best: '+S.best)+'</div>';const b=$('#gb');if(b){b.style.display='';b.textContent='Play again'}}
+function breathe(){const b=$('#bub');if(bi){clearInterval(bi);bi=null;b.className='bub';$('#bl').textContent='Tap the bubble to start';return}b.className='bub go';let t=0;const f=()=>{const p=t%10;$('#bl').textContent=p<4?'Breathe in…':p<6?'Hold…':'Breathe out…';t++};f();bi=setInterval(()=>{if(!$('#bl')){clearInterval(bi);bi=null;return}f()},1000)}
+render();
+
+// ── PWA: Service Worker Registration ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+// ── PWA: Install Banner ──
+let deferredPrompt = null;
+const banner = document.getElementById('install-banner');
+const installBtn = document.getElementById('install-btn');
+const dismissBtn = document.getElementById('install-dismiss');
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show banner after a short delay so it doesn't appear instantly
+  setTimeout(() => banner.classList.add('visible'), 3000);
+});
+
+installBtn && installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  banner.classList.remove('visible');
+  if (outcome === 'accepted') toast('🎉 Orbit installed! Find it on your home screen.');
+});
+
+dismissBtn && dismissBtn.addEventListener('click', () => {
+  banner.classList.remove('visible');
+});
+
+// Hide banner if already installed
+window.addEventListener('appinstalled', () => {
+  banner.classList.remove('visible');
+  deferredPrompt = null;
+});
+</script>
+</body>
+</html>

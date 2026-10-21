@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1030">
+<title>Open Orbit on Your Phone</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(700px 500px at 100% 0,rgba(255,61,139,.2),transparent),
+             radial-gradient(700px 500px at 0 60%,rgba(79,110,255,.2),transparent),#0b1030;
+  font-family:'Inter',system-ui,sans-serif;color:#f6f3ff;padding:24px}
+.card{background:rgba(21,27,69,.9);border:2px solid #2a3380;border-radius:28px;
+  padding:40px 36px;max-width:420px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.logo{font-size:3rem;text-align:center;margin-bottom:8px}
+h1{font-size:1.9rem;font-weight:900;text-align:center;
+  background:linear-gradient(90deg,#ff5fa8,#ffd23f,#39f2b0);
+  -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+.tagline{color:#aab0e6;font-size:.95rem;text-align:center;margin-bottom:28px}
+.qr-wrap{background:#fff;border-radius:18px;padding:16px;display:flex;justify-content:center;margin-bottom:20px;
+  box-shadow:0 8px 32px rgba(255,95,168,.25)}
+.qr-wrap img{display:block;border-radius:6px;width:100%;max-width:220px}
+.url-box{background:#111840;border:1.5px solid #2a3380;border-radius:12px;
+  padding:10px 16px;font-size:.85rem;color:#6f8cff;margin-bottom:24px;
+  text-align:center;word-break:break-all}
+.steps{background:#111840;border-radius:16px;padding:20px;margin-bottom:20px}
+.steps h2{font-size:1rem;font-weight:700;color:#f6f3ff;margin-bottom:14px}
+.step{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.step:last-child{margin:0}
+.step .n{background:linear-gradient(135deg,#4d6bff,#ff3d8b);color:#fff;border-radius:50%;
+  width:26px;height:26px;min-width:26px;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.8rem;margin-top:1px}
+.step .txt{font-size:.88rem;color:#c8c4f0;line-height:1.5}
+.step .txt strong{color:#f6f3ff}
+.devices{display:flex;gap:8px;margin-bottom:20px}
+.device{flex:1;background:#111840;border:1.5px solid #2a3380;border-radius:12px;
+  padding:12px 8px;text-align:center;font-size:.78rem;color:#aab0e6}
+.device .ico{font-size:1.6rem;margin-bottom:4px}
+.device strong{display:block;color:#f6f3ff;font-size:.82rem;margin-bottom:2px}
+.badge{text-align:center}
+.badge span{display:inline-block;background:rgba(57,242,176,.12);color:#39f2b0;
+  border:1px solid rgba(57,242,176,.3);border-radius:99px;padding:4px 14px;
+  font-size:.78rem;font-weight:700}
+.sep{border:0;border-top:1px solid #2a3380;margin:20px 0}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">🪐</div>
+  <h1>Orbit – ADHD Planner</h1>
+  <p class="tagline">Scan with your phone camera to open instantly</p>
+
+  <!-- QR code auto-generated from the page URL -->
+  <div class="qr-wrap">
+    <img id="qr" alt="QR Code to open Orbit" width="220" height="220">
+  </div>
+
+  <div class="url-box" id="app-url">Loading…</div>
+
+  <div class="devices">
+    <div class="device"><div class="ico">📱</div><strong>iPhone</strong>Safari</div>
+    <div class="device"><div class="ico">🤖</div><strong>Android</strong>Chrome</div>
+    <div class="device"><div class="ico">💻</div><strong>Desktop</strong>Any browser</div>
+  </div>
+
+  <div class="steps">
+    <h2>📲 How to install it</h2>
+    <div class="step"><span class="n">1</span><span class="txt">Open your <strong>Camera app</strong> and point at the QR code above</span></div>
+    <div class="step"><span class="n">2</span><span class="txt">Tap the notification that pops up — the app opens in your browser</span></div>
+    <div class="step"><span class="n">3</span><span class="txt"><strong>iPhone:</strong> tap the Share icon → <em>Add to Home Screen</em><br><strong>Android:</strong> tap <em>Install App</em> in the menu<br><strong>Desktop:</strong> click the install icon in the address bar</span></div>
+    <div class="step"><span class="n">4</span><span class="txt">Done! Orbit now lives on your home screen like a real app 🎉</span></div>
+  </div>
+
+  <div class="badge"><span>✅ Works offline · No account · No subscription</span></div>
+
+  <hr class="sep">
+  <p style="text-align:center;font-size:.78rem;color:#aab0e6">All your data stays on your own device.<br>A planning tool, not medical advice.</p>
+</div>
+
+<script>
+// Auto-generate QR from current URL
+const appUrl = window.location.origin + '/';
+document.getElementById('app-url').textContent = appUrl;
+document.getElementById('qr').src =
+  'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=0&data=' + encodeURIComponent(appUrl);
+</script>
+</body>
+</html>
