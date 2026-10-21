@@ -1,14 +1,12 @@
 // Orbit ADHD Planner – Service Worker
 // Caches the app for full offline use after first visit
 
-const CACHE = 'orbit-v1';
+const CACHE = 'orbit-v2';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon.svg',
-  '/icon-192.png',
-  '/icon-512.png'
+  '/orbit-planner/',
+  '/orbit-planner/index.html',
+  '/orbit-planner/manifest.json',
+  '/orbit-planner/icon.svg'
 ];
 
 // Install: cache everything

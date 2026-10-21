@@ -2,8 +2,8 @@
   "name": "Orbit – ADHD Planner",
   "short_name": "Orbit",
   "description": "A beautiful, ADHD-friendly daily planner with focus timers, habit tracking, and brain-friendly tools.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/orbit-planner/",
+  "scope": "/orbit-planner/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0b1030",
@@ -42,14 +42,14 @@
       "name": "Today's Tasks",
       "short_name": "Today",
       "description": "Go to Today view",
-      "url": "/?tab=today",
+      "url": "/orbit-planner/?tab=today",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Focus Timer",
       "short_name": "Focus",
       "description": "Start a focus session",
-      "url": "/?tab=focus",
+      "url": "/orbit-planner/?tab=focus",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }
   ]
